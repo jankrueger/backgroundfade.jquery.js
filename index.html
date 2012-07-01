@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>Backgroundfade</title>
+	<script src="modernizr.custom.js" type="text/javascript" charset="utf-8"></script>
+	<style type="text/css" media="screen">
+		#gallery1 {
+			width: 1000px;
+			height: 400px;
+		}
+	</style>
+</head>
+<body>
+	
+	<div id="gallery1">
+		<img src="http://placehold.it/400x300&text=1" data-image="1" data-gallery="gallery1"/>
+		<img src="http://placehold.it/400x300&text=2" data-image="2" data-gallery="gallery1"/>
+		<img src="http://placehold.it/400x300&text=3" data-image="3" data-gallery="gallery1"/>
+	</div>
+	
+	<a href="#" data-gallery="gallery1" data-image="1" class="gal-btn">bild 1</a>
+	<a href="#" data-gallery="gallery1" data-image="2" class="gal-btn">bild 2</a>
+	<a href="#" data-gallery="gallery1" data-image="3" class="gal-btn">bild 3</a>
+	
+	<div id="gallery2">
+		<img src="http://placehold.it/400x300&text=1" data-image="1" data-gallery="gallery2"/>
+		<img src="http://placehold.it/400x300&text=2" data-image="2" data-gallery="gallery2"/>
+		<img src="http://placehold.it/400x300&text=3" data-image="3" data-gallery="gallery2"/>
+	</div>
+	<script src="jquery.js" type="text/javascript" charset="utf-8"></script>
+	<script src="backgroundfade.jquery.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/javascript" charset="utf-8">
+		(function($) {
+			
+			$('#gallery1').g({
+				'linkSelector': '.gal-btn', 
+				'start': 2
+			});
+			$('#gallery2').g();
+			
+			$('#gallery2').g();
+			$('#gallery1').g();
+			
+		})(jQuery);
+	</script>
+</body>
