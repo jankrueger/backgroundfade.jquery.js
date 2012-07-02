@@ -45,10 +45,16 @@
 
 							newImage.css(css);
 							newImage.css({
-								'background-size': 'cover', 
-								'background': 'url(\'' + image.attr('src') + '\') top left no-repeat', 
-								'height': '300px', 
-								'width': '400px', 
+								'-webkit-background-size': 'cover',
+								'-moz-background-size': 'cover',
+								'-o-background-size': 'cover',
+								'background-size': 'cover',
+								'background-image': 'url(\'' + image.attr('src') + '\')', 
+								'background-position': 'center center',
+								'background-attachment': 'local', 
+								'background-repeat': 'no-repeat',
+								'height': $this.css('height'), 
+								'width': '100%',
 								'opacity': '0', 
 								'-webkit-transition': 'opacity 1s linear',
 								'-moz-transition': 'opacity 1s linear',
@@ -67,11 +73,44 @@
 							// Use fallback
 							image.css(css);
 							image.css({
-								'display': 'none'
+
+								'display': 'none', 
+								'background-position': 'center center',
+								'background-attachment': 'local', 
+								'background-repeat': 'no-repeat'
+								
+
 							});
 							image.attr(attrs);
 							image.data(datas);
 
+							image.data('origWidth', image.width()).data('origHeight', image.height());
+
+							$(window).resize(function() {
+
+								var ratio = image.data('origHeight') / image.data('origWidth'),
+									parentWidth = $this.width(),
+									parentHeight = $this.height();
+								if(parentWidth > parentHeight) {
+									if ((parentHeight / parentWidth) > ratio) {
+										image.height('100%').width('auto');
+									}else {
+										image.height('auto').width('100%');
+									}
+								}else {
+									if ((parentHeight / parentWidth) > ratio) {
+										image.height('100%').width('auto');
+									}else {
+										image.height('auto').width('100%');
+									}
+								} 
+
+								var tmpHeight = (image.height() != 0) ? image.height() : image.attr('height');
+								
+								image.css('left', ($this.width() - image.width())/2)
+								.css('top', ($this.height() - tmpHeight)/2); 
+
+							}).trigger('resize');
 						}
 					});
 					
@@ -92,8 +131,17 @@
 							if(activeImage && activeLink) {
 								
 								activeImage.removeClass('active');
+								activeImage.css({
+									'opacity': '0'
+								});
 								activeLink.removeClass('active');
 							}
+
+							image.css({
+								'opacity': '1'
+							});
+							image.addClass('active');
+							link.addClass('active');
 
 						}else {
 							// Use fallback
@@ -109,9 +157,10 @@
 							image.fadeIn().addClass('active');
 							link.addClass('active');
 							
-							activeLink = link;
-							activeImage = image;
 						}
+
+						activeLink = link;
+						activeImage = image;
 						
 						return false;
 					}).first().click();
